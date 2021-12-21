@@ -58,42 +58,42 @@ if __name__ == "__main__":
                 else:
                     stopflag = 0
             t2 = time.time()
-            if t2 - t1 >= 0.01:
-            #==============setlocation부==========================================
-                [lines,lines_img] = AUTO.writeline(src, ret)
-                [result,ListLowerZero, ListUpperZero] = AUTO.editline(lines, lines_img)
-                if result[0] == 1:
-                    t1 = time.time() - 0.2
-                    t2 = time.time()
-                xt = result[1]
-                yt = result[2]
-                if xt == -100001 and yt == -100001:
-                    direction = previous
-                car = p.motorAction(xt, yt)
-                direction = car.whereControl()
-                if len(ListLowerZero[0]) == 0:
-                    leftpoint = 2
-                    lflag = 0
-                elif len(ListUpperZero[0]) == 0:
-                    rightpoint = 2
-                    rflag = 0
-                state = [leftval, rightval, lflag, lcount, rcount, leftpoint, rightpoint, len(ListLowerZero[0]), len(ListUpperZero[0])]
-                speed = [lrspeed, slrspeed]
-                if stopflag == 1:
-                    customControlServer.stop()
-                else:
-                    [leftval, rightval, lflag, lcount, rcount, leftpoint, rightpoint] = mv.move_autocar(direction,state,speed)
-
-                print('sinhodong =' + str(TrafficLight) + 'rider' + str(lider.liderflag))
-                print("leftpoint" + len(ListUpperZero[0]) + "rightpoint" + len(ListLowerZero[0]))
-                t1 = time.time()
+        if t2 - t1 >= 0.01:
+        #==============setlocation부==========================================
+            [lines,lines_img] = AUTO.writeline(src, ret)
+            [result,ListLowerZero, ListUpperZero] = AUTO.editline(lines, lines_img)
+            if result[0] == 1:
+                t1 = time.time() - 0.2
                 t2 = time.time()
-                cv2.imshow("ROI", lines_img)
-                # cv2.imshow('cdstP',cdstP)
-                #cv2.imshow('source', mask)
-                previous = direction
+            xt = result[1]
+            yt = result[2]
+            if xt == -100001 and yt == -100001:
+                direction = previous
+            car = p.motorAction(xt, yt)
+            direction = car.whereControl()
+            if len(ListLowerZero[0]) == 0:
+                leftpoint = 2
+                lflag = 0
+            elif len(ListUpperZero[0]) == 0:
+                rightpoint = 2
+                rflag = 0
+            state = [leftval, rightval, lflag, lcount, rcount, leftpoint, rightpoint, len(ListLowerZero[0]), len(ListUpperZero[0])]
+            speed = [lrspeed, slrspeed]
+            if stopflag == 1:
+                customControlServer.stop()
             else:
-                t2 = time.time()
+                [leftval, rightval, lflag, lcount, rcount, leftpoint, rightpoint] = mv.move_autocar(direction,state,speed)
+
+            print('sinhodong =' + str(TrafficLight) + 'rider' + str(lider.liderflag))
+            print("leftpoint" + len(ListUpperZero[0]) + "rightpoint" + len(ListLowerZero[0]))
+            t1 = time.time()
+            t2 = time.time()
+            cv2.imshow("ROI", lines_img)
+            # cv2.imshow('cdstP',cdstP)
+            #cv2.imshow('source', mask)
+            previous = direction
+        else:
+            t2 = time.time()
         if previous == 1 and customControlServer.OnOff == False:
             cv2.destroyWindow("ROI")
             cv2.destroyWindow('source')
